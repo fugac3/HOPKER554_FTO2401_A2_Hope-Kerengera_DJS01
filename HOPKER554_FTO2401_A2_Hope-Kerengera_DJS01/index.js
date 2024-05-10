@@ -17,13 +17,29 @@ const newDistance = distance / 1000 + (initialVelocity / 3.6) * time; //calculte
 const remainingFuel = fuel - fuelBurnRate * time; //calculates remaining fuel //subtract consumed fuel from initial fuel
 
 // Pick up an error with how the function below is called and make it robust to such errors
-//define calcNewVel function before calling it
-const calcNewVel = (vel, acc, time) => {
-  return vel + acc * time;
+//define calculateNewVelocity function before calling it
+const calculateNewVelocity = (vel, acc, time) => {
+  //validate input
+  if (
+    acc < 0 ||
+    vel < 0 ||
+    time < 0 ||
+    isNaN(acc) ||
+    isNaN(vel) ||
+    isNaN(time)
+  ) {
+    throw Error("All values must be positive and must be numbers");
+  } else {
+    return vel + acc * time;
+  }
 };
 
 //divide initialVelocity by 3.6 to make it consistent with other units (m/s), and fix the parameters
-const newVelocity = calcNewVel(initialVelocity / 3.6, acceleration, time); //calculates new velocity based on acceleration
+const newVelocity = calculateNewVelocity(
+  initialVelocity / 3.6,
+  acceleration,
+  time
+); //calculates new velocity based on acceleration
 
 console.log(`Corrected New Velocity: ${newVelocity * 3.6} km/h`);
 console.log(`Corrected New Distance: ${newDistance / 1000} km`);
